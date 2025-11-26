@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs-18_x", "npm"]
+
+[phases.install]
+cmds = ["cd AhMyth-Server && npm install"]
+
+[phases.build]
+cmds = []
+
+[start]
+cmd = "cd AhMyth-Server && node server.js"
