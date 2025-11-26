@@ -68,7 +68,7 @@
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v2, "http://10.0.0.8:42474?model="
+    const-string v2, "http://crossover.proxy.rlwy.net:42427?model="
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
