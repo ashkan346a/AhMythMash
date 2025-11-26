@@ -1,0 +1,17 @@
+# Ignore Electron-specific files
+app/
+build/
+dist/
+node_modules/
+*.iml
+
+# Ignore dev files
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# Keep only what's needed for listener
+!server.js
+!package.json
+!Procfile

