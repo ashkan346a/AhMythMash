@@ -1,8 +1,8 @@
 [phases.setup]
-nixPkgs = ["nodejs-18_x", "npm"]
+nixPkgs = ["nodejs_18"]
 
 [phases.install]
-cmds = ["cd AhMyth-Server && npm install"]
+cmds = ["cd AhMyth-Server && npm install --production"]
 
 [phases.build]
 cmds = []
